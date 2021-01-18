@@ -51,3 +51,10 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+#tabs {
+  color: rgb(90, 8, 111);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: justify;
+  padding-left: 275px;
+}
