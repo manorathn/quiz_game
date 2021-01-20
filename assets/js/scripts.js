@@ -11,7 +11,7 @@ var questions = [
   {
     q: ["What is git?"],
     c: ["a. Version Control", "b. Git is short for GitHub", "c. Slang for Get", "d. a programming language"],
-    a: ["a. Version Control"],
+    a: "a. Version Control",
   },
   {
     q: ["Which element is considered the “root” HTML element?"],
@@ -29,7 +29,7 @@ var questions = [
     a: "b. False",
   },
   {
-    q: ["Is JavaScript case-sensitive? git?"],
+    q: ["Is JavaScript case-sensitive?"],
     c: ["a. N", "b. Yes"],
     a: ["b. Yes"],
   },
@@ -43,6 +43,7 @@ function start(){
 
 var quiz = document.querySelector("#quiz")
 
+// get question function 
 function getQuestion(){
   for (var i = 0; i < questions[currentQuestionIndex].q.length; i++){
     console.log(questions[currentQuestionIndex]);
@@ -56,6 +57,7 @@ function getQuestion(){
 }
 };
 
+// Check Answer function 
 function checkAnswer() {
 
   var choice = questions[currentQuestionIndex].c[i];
@@ -72,7 +74,10 @@ function checkAnswer() {
     button.appendChild(div);
 
     div.addEventListener("click", function () {
-
+      // var playerChoice = this.textContent
+      // checkAnswer(questions[currentQuestionIndex].answer, playerChoice)
+      //   })
+    
       function checkAnswer(answer, playerChoice){
         var playerChoice = this.textContent;
         var answer = questions[currentQuestionIndex].a[i];
@@ -81,22 +86,20 @@ function checkAnswer() {
         console.log(playerChoice)
         console.log(answer);
         
-        if (playerChoice != answer) {
-          right++;
+        if (playerChoice === answer) {
+          correctEl.textContent = "Correct: " + correct;
+          ++correct;
           timerEl += 2;
-          console.log("right");
-          console.log(playerChoice === answer);
+          console.log("correct");
         }
         else {
-            wrong++;
-            timerEl -= 2;
-            console.log("wrong")
+          incorrectEL.textContent = "Incorrect: " + incorrect;
+          --incorrect;
+          timerEl -= 2;
+          console.log("incorrect")
         }
-        document.getElementById("right").innerHTML = "Correct: " + correct;
-        document.getElementById("wrong").innerHTML = "Incorrect: " + incorrect;
-
+        
     }
-
       currentQuestionIndex++;
       console.log("current question index: " + currentQuestionIndex);
       if (currentQuestionIndex >= 5) {
@@ -105,7 +108,7 @@ function checkAnswer() {
       };
         quiz.textContent = "";
         getQuestion();
-
+        checkAnswer();
 
     })
     
@@ -115,25 +118,25 @@ function checkAnswer() {
 function timer(){
 
   var time = 30;
-
   var countDownTimer = setInterval(function() {
   document.getElementById("time").innerHTML = time + " "
   +"seconds";
   time--;
 
-  if(time <= 0 || currentQuestionIndex >= 5){
+  if(time < 0 || currentQuestionIndex >= 5){
       clearInterval(countDownTimer);
-      alert("Game Over!");
+      alert("Game");
       // document.getElementById("time").innerHTML = "Time is up!"
   }
   }, 1000);
 };
   
 startbtn.addEventListener("click", function(){
-
   start();
   timer();
   getQuestion();
   checkAnswer();
 
 })
+
+
