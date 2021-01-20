@@ -40,6 +40,7 @@ function start(){
   welcome.remove();
 };
 
+
 var quiz = document.querySelector("#quiz")
 
 function getQuestion(){
@@ -47,45 +48,82 @@ function getQuestion(){
     console.log(questions[currentQuestionIndex]);
 
   var question = questions[currentQuestionIndex].q;
-  console.log(question);
+  // console.log(question);
   
   var h2 = document.createElement("h2")
   h2.textContent = question;
   quiz.appendChild(h2);
+}
 };
 
+function checkAnswer() {
+
+  var choice = questions[currentQuestionIndex].c[i];
+  
   for (var i = 0; i < questions[currentQuestionIndex].c.length; i++) {
+  console.log(questions[currentQuestionIndex].c);
+
     var div = document.querySelector("#button")
     var div = document.createElement("button");
     var choice = questions[currentQuestionIndex].c[i];
     console.log(choice);
 
-    div.addEventListener("click", function () {
-        var playerChoice = this.textContent
-        // var checkAnswer = questions[currentQuestionIndex].a;
-        checkAnswer(questions[currentQuestionIndex].a, playerChoice)
-
-    })
     div.textContent = choice;
     button.appendChild(div);
+
+    div.addEventListener("click", function () {
+
+      function checkAnswer(answer, playerChoice){
+        var playerChoice = this.textContent;
+        var answer = questions[currentQuestionIndex].a[i];
+        var correct = 0;
+        var incorrect = 0;
+        console.log(playerChoice)
+        console.log(answer);
+        
+        if (playerChoice != answer) {
+          right++;
+          timerEl += 2;
+          console.log("right");
+          console.log(playerChoice === answer);
+        }
+        else {
+            wrong++;
+            timerEl -= 2;
+            console.log("wrong")
+        }
+        document.getElementById("right").innerHTML = "Correct: " + correct;
+        document.getElementById("wrong").innerHTML = "Incorrect: " + incorrect;
+
+    }
+
+      currentQuestionIndex++;
+      console.log("current question index: " + currentQuestionIndex);
+      if (currentQuestionIndex >= 5) {
+          time = 0
+          return;
+      };
+        quiz.textContent = "";
+        getQuestion();
+
+
+    })
+    
 }
 };
-  
-  
-  
 
 function timer(){
 
-  var time = 90;
+  var time = 30;
 
   var countDownTimer = setInterval(function() {
   document.getElementById("time").innerHTML = time + " "
   +"seconds";
   time--;
 
-  if(time <= 0){
+  if(time <= 0 || currentQuestionIndex >= 5){
       clearInterval(countDownTimer);
-      alert("Time is up!");
+      alert("Game Over!");
       // document.getElementById("time").innerHTML = "Time is up!"
   }
   }, 1000);
